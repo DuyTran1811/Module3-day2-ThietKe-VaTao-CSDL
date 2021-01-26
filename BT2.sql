@@ -17,7 +17,7 @@ CREATE TABLE `customer`(
 PRIMARY KEY (`customerNumber`));
 
 CREATE TABLE `orders`(
-`orderNumber` INT NOT NULL AUTO_INCREMENT,
+`orderNumber` INT NOT NULL,
 `orderDate` DATE NOT NULL,
 `requiredDate` DATE NOT NULL,
 `shippedDate` DATE NOT NULL,
@@ -25,13 +25,15 @@ CREATE TABLE `orders`(
 `comments` TEXT NOT NULL,
 `quantityOrdered` INT NOT NULL,
 `priceEach`FLOAT NOT NULL, 
+`customerNumber`INT NOT NULL,
  PRIMARY KEY (`orderNumber`));
 
 CREATE TABLE `payments`(
-`customer_Number` INT NOT NULL AUTO_INCREMENT,
+`customerNumber` INT NOT NULL,
 `checkNumber` VARCHAR(50)NOT NULL,
 `paymentDate` DATE NOT NULL,
 `amount` FLOAT NOT NULL,
+`customer_id` INT NOT NULL,
 PRIMARY KEY(`customer_Number`));
 
 CREATE TABLE `products`(
@@ -50,7 +52,7 @@ CREATE TABLE `prodictLine`(
 `image` VARCHAR(255)NOT NULL);
 
 CREATE TABLE `employee`(
-`employeeNumber` INT NOT NULL AUTO_INCREMENT,
+`employeeNumber` INT NOT NULL,
 `lastName` VARCHAR(50) NOT NULL,
 `firstName` VARCHAR(50) NOT NULL,
 `email` VARCHAR(100) NOT NULL,
@@ -66,6 +68,16 @@ CREATE TABLE `offices`(
 `state` VARCHAR(50) NOT NULL,
 `country` VARCHAR(50) NOT NULL,
 `postalCode` VARCHAR(15)NOT NULL);
+
+-- Liên kết bảng oders với customer
+
+ALTER TABLE `orders`
+ADD FOREIGN KEY (`customerNumber`)
+REFERENCES `customer` (`customerNumber`);
+
+ALTER TABLE `payments`
+ADD FOREIGN KEY(`customer_id`)
+REFERENCES `customer`(customerNumber);
 
 
 
